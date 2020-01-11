@@ -13,12 +13,12 @@
       </v-list>
     </v-navigation-drawer>
     <v-app-bar app class="primary" dark>
-      <v-app-bar-nav-icon @click ="sideNav = !sideNav" class="hidden-sm-and-up"></v-app-bar-nav-icon >
+      <v-app-bar-nav-icon @click ="sideNav = !sideNav" class="hidden-md-and-up"></v-app-bar-nav-icon >
       <v-toolbar-title>
         <router-link to="/" tag="span" style="cursor: pointer">DevMeetup</router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-toolbar-items class="hidden-xs-only">
+      <v-toolbar-items class="hidden-sm-and-down">
         <v-btn text v-for="item in menuItems" :key="item.title" :to="item.link">
           <v-icon left dark>{{ item.icon }}</v-icon>
           {{ item.title }}
@@ -26,7 +26,9 @@
       </v-toolbar-items>
     </v-app-bar>
     <v-content>
-      <router-view />
+      <v-container>
+        <router-view></router-view>
+      </v-container>
     </v-content>
   </v-app>
 </template>
