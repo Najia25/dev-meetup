@@ -3,12 +3,12 @@
     <v-row>
       <v-col>
         <v-card>
-          <v-card-title>My Meetup</v-card-title>
+          <v-card-title>{{ meetup.title }}</v-card-title>
           <v-img
             height="400"
-            src="https://upload.wikimedia.org/wikipedia/commons/4/47/New_york_times_square-terabass.jpg"
+            :src="meetup.imageUrl"
           ></v-img>
-          <v-card-subtitle class="pb-0 indigo--text text--darken-2">17th July - New York</v-card-subtitle>
+          <v-card-subtitle class="pb-0 indigo--text text--darken-2">{{ meetup.date }}</v-card-subtitle>
           <v-card-text>
             <div>
               Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestiae vero tempora reiciendis ad id mollitia dignissimos nobis incidunt, tempore voluptates voluptatibus eos facere amet eaque voluptatum sunt quis. Ipsum, enim.
@@ -19,3 +19,14 @@
     </v-row>
   </v-container>
 </template>
+
+<script>
+export default {
+  props: ['id'],
+  computed: {
+    meetup () {
+      return this.$store.getters.loadMeetup(this.id)
+    }
+  }
+}
+</script>
