@@ -41,14 +41,33 @@ export default {
   },
 
   data: () => ({
-    sideNav: false,
-    menuItems: [
-      { icon: 'mdi-account-group', title: 'View Meetups', link: '/meetups' },
-      { icon: 'mdi-map-marker', title: 'Organize Meetup', link: '/meetup/new' },
-      { icon: 'mdi-account', title: 'Profile', link: '/profile' },
-      { icon: 'mdi-clipboard-account', title: 'Sign up', link: '/signup' },
-      { icon: 'mdi-lock-open', title: 'Sign in', link: '/signin' }
-    ]
-  })
+    sideNav: false
+    // menuItems: [
+    //   { icon: 'mdi-account-group', title: 'View Meetups', link: '/meetups' },
+    //   { icon: 'mdi-map-marker', title: 'Organize Meetup', link: '/meetup/new' },
+    //   { icon: 'mdi-account', title: 'Profile', link: '/profile' },
+    //   { icon: 'mdi-clipboard-account', title: 'Sign up', link: '/signup' },
+    //   { icon: 'mdi-lock-open', title: 'Sign in', link: '/signin' }
+    // ]
+  }),
+  computed: {
+    menuItems () {
+      let menuItems = [
+        { icon: 'mdi-clipboard-account', title: 'Sign up', link: '/signup' },
+        { icon: 'mdi-lock-open', title: 'Sign in', link: '/signin' }
+      ]
+      if (this.userIsAuthenticated) {
+        menuItems = [
+          { icon: 'mdi-account-group', title: 'View Meetups', link: '/meetups' },
+          { icon: 'mdi-map-marker', title: 'Organize Meetup', link: '/meetup/new' },
+          { icon: 'mdi-account', title: 'Profile', link: '/profile' }
+        ]
+      }
+      return menuItems
+    },
+    userIsAuthenticated () {
+      return this.$store.getters.user !== null && this.$store.getters.user !== undefined
+    }
+  }
 }
 </script>
