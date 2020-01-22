@@ -2,6 +2,7 @@
   <v-container>
     <v-row>
       <v-col col="12" sm="6" offset-sm="3">
+        <app-alert @dismissed="onDismissed" v-if="error" :text="error.message"></app-alert>
         <v-card>
           <v-card-text>
             <v-container>
@@ -35,7 +36,7 @@
                 :rules="[rules.required,passwordMatch]"
               ></v-text-field>
               <v-card-actions>
-                <v-btn type="submit" class="primary">Sign Up</v-btn>
+                <v-btn type="submit" class="primary" :disabled="loading" :loading="loading">Sign Up</v-btn>
               </v-card-actions>
             </v-form>
             </v-container>
@@ -69,6 +70,12 @@ export default {
     },
     user () {
       return this.$store.getters.user
+    },
+    error () {
+      return this.$store.getters.error
+    },
+    loading () {
+      return this.$store.getters.loading
     }
   },
   watch: {
@@ -81,6 +88,9 @@ export default {
   methods: {
     onSignUp () {
       this.$store.dispatch('signUpUser', { email: this.email, password: this.password })
+    },
+    onDismissed () {
+      this.$store.dispatch('clearError')
     }
   }
 }

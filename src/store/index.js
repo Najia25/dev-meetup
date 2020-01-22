@@ -21,7 +21,9 @@ export default new Vuex.Store({
         description: 'sdkljsakdljsakldsjakldjaskldjkasldjksaldj'
       }
     ],
-    user: null
+    user: null,
+    error: null,
+    loading: false
   },
   mutations: {
     createMeetup (state, payload) {
@@ -29,6 +31,15 @@ export default new Vuex.Store({
     },
     addUser (state, payload) {
       state.user = payload
+    },
+    setLoading (state, payload) {
+      state.loading = payload
+    },
+    setError (state, payload) {
+      state.error = payload
+    },
+    clearError (state) {
+      state.error = null
     }
   },
   actions: {
@@ -44,9 +55,12 @@ export default new Vuex.Store({
       commit('createMeetup', meetup)
     },
     signInUser ({ commit }, payload) {
+      commit('setLoading', true)
+      commit('clearError')
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
         .then(
           user => {
+            commit('setLoading', false)
             const newUser = {
               id: user.uid,
               registeredMeetups: []
@@ -55,13 +69,18 @@ export default new Vuex.Store({
           }
         )
         .catch(error => {
+          commit('setLoading', false)
+          commit('setError', error)
           console.log(error)
         })
     },
     signUpUser ({ commit }, payload) {
+      commit('setLoading', true)
+      commit('clearError')
       firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
         .then(
           user => {
+            commit('setLoading', false)
             const newUser = {
               id: user.uid,
               registeredMeetups: []
@@ -70,10 +89,14 @@ export default new Vuex.Store({
           }
         )
         .catch(error => {
+          commit('setLoading', false)
+          commit('setError', error)
           console.log(error)
         })
+    },
+    clearError ({ commit }) {
+      commit('clearError')
     }
-
   },
   modules: {
   },
@@ -95,6 +118,12 @@ export default new Vuex.Store({
     },
     user (state) {
       return state.user
+    },
+    error (state) {
+      return state.error
+    },
+    loading (state) {
+      return state.loading
     }
   }
 })
