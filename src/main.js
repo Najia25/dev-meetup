@@ -25,5 +25,6 @@ new Vue({
       appId: '1:369884531349:web:623a4caa91d09ab229a99c',
       measurementId: 'G-KY0BVXGPEC'
     })
+    this.$store.dispatch('LoadMeetups')
   }
 }).$mount('#app')

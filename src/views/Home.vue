@@ -9,11 +9,19 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col>
+      <v-col class="text-center">
+        <v-progress-circular
+          indeterminate
+          color="primary"
+          v-if="loading"
+          :size="70"
+          :width="7"
+        ></v-progress-circular>
         <v-carousel
         cycle
         hide-delimiter-background
         show-arrows-on-hover
+        v-if="!loading"
         >
           <v-carousel-item
             v-for="meetup in meetups"
@@ -42,6 +50,9 @@ export default {
   computed: {
     meetups () {
       return this.$store.getters.featuredMeetups
+    },
+    loading () {
+      return this.$store.getters.loading
     }
   },
   data () {
