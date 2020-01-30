@@ -16,14 +16,18 @@ new Vue({
   render: h => h(App),
   created () {
     firebase.initializeApp({
-      apiKey: 'AIzaSyCTx2zr6wuKaM-SwTOzY3y3m8yCPCR1OGk',
-      authDomain: 'devmeetup-3984e.firebaseapp.com',
-      databaseURL: 'https://devmeetup-3984e.firebaseio.com',
-      projectId: 'devmeetup-3984e',
-      storageBucket: 'devmeetup-3984e.appspot.com',
-      messagingSenderId: '369884531349',
-      appId: '1:369884531349:web:623a4caa91d09ab229a99c',
-      measurementId: 'G-KY0BVXGPEC'
+      apiKey: 'AIzaSyD6S4OoBEpidnknY2SXVuR-8bNv0KexaxU',
+      authDomain: 'devmeetup-11bc5.firebaseapp.com',
+      databaseURL: 'https://devmeetup-11bc5.firebaseio.com',
+      projectId: 'devmeetup-11bc5',
+      storageBucket: 'gs://devmeetup-11bc5.appspot.com',
+      messagingSenderId: '995011693070',
+      appId: '1:995011693070:web:b966f56b63edbb1f540a5f'
+    })
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.$store.dispatch('autoSignIn', user)
+      }
     })
     this.$store.dispatch('LoadMeetups')
   }

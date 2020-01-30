@@ -16,13 +16,8 @@
             label="Location"
             required
           ></v-text-field>
-          <v-text-field class="mb-5"
-            name="imageUrl"
-            v-model="formData.imageUrl"
-            label="Image URL"
-            required
-          ></v-text-field>
-          <v-img :src="formData.imageUrl"></v-img>
+          <v-file-input v-model="file" @change="onFileUpload" prepend-icon="mdi-camera" accept= "image/*" label="Upload image"></v-file-input>
+          <v-img :src="imageUrl"></v-img>
           <v-textarea class="mb-5"
             name="description"
             label="Description"
@@ -39,8 +34,8 @@
           </v-row>
           <v-row>
             <v-col>
-              <v-time-picker v-model="formData.time">
-                {{ formData.time }}
+              <v-time-picker v-model="formData.date">
+                {{ formData.date }}
               </v-time-picker>
             </v-col>
           </v-row>
@@ -57,7 +52,6 @@ export default {
     formIsValid () {
       return this.formData.title !== '' &&
       this.formData.location !== '' &&
-      this.formData.imageUrl !== '' &&
       this.formData.description !== ''
     }
   },
@@ -66,19 +60,51 @@ export default {
       formData: {
         title: '',
         location: '',
-        imageUrl: '',
         description: '',
         date: new Date().toISOString().substr(0, 10),
-        time: new Date().toISOString().substr(11, 8)
-
-      }
+        image: null
+      },
+      file: null,
+      imageUrl: ''
     }
   },
   methods: {
     createMeetup () {
-      const payload = this.formData
+      if (!this.formIsValid) {
+        return
+      }
+      if (!this.formData.image) {
+        return
+      }
+      const payload = {
+        title: this.formData.title,
+        location: this.formData.location,
+        description: this.formData.description,
+        date: this.formData.date,
+        image: this.formData.image
+      }
+      console.log(payload)
       this.$store.dispatch('addMeetup', payload)
+    },
+    onFileUpload () {
+      const fileReader = new FileReader()
+      fileReader.addEventListener('load', () => { // triggers asynchronously when file has been read successfully
+        this.imageUrl = fileReader.result
+      })
+      fileReader.readAsDataURL(this.file)// reads the file and turns image into base64 string
+      this.formData.image = this.file
+      console.log(this.formData.image)
     }
   }
 }
+/*
+Associate image with corresponding meetup, three step approach:
+We dont want to pass image download url (local url) to firebase
+We want to store image to firebase and make sure its connected to meetup, for that we need meetup id to connect to the image, which is provided by firebase. to do this.
+1. we upload the meetup data to firebase, which gives the id provided by firebase
+2. use this key/id to upload image and associate it with our meetup
+3. in the success response i get the url where it was stored by firebase
+4. reach out to firebase database to update my meetup to add the url to the meetup object we have stored in firebase
+The reason for this segmentation is Storage that stores media seperately in firebase
+*/
 </script>
