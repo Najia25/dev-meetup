@@ -5,9 +5,11 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import AlertCmp from './components/common/Alert.vue'
+import MeetupEdit from './components/Meetup edit/EditMeetupDetailsDialogue.vue'
 
 Vue.config.productionTip = false
 Vue.component('app-alert', AlertCmp)
+Vue.component('app-edit-meetup-details-dialogue', MeetupEdit)
 
 new Vue({
   router,

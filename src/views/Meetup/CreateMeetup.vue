@@ -8,13 +8,13 @@
             v-model="formData.title"
             name="title"
             label="Title"
-            required
+            :rules="[rules.required]"
           ></v-text-field>
           <v-text-field class="mb-5"
             v-model="formData.location"
             name="location"
             label="Location"
-            required
+            :rules="[rules.required]"
           ></v-text-field>
           <v-file-input v-model="file" @change="onFileUpload" prepend-icon="mdi-camera" accept= "image/*" label="Upload image"></v-file-input>
           <v-img :src="imageUrl"></v-img>
@@ -22,7 +22,7 @@
             name="description"
             label="Description"
             v-model="formData.description"
-            required
+            :rules="[rules.required]"
           ></v-textarea>
           <h1 class="grey--text text--lighten-1 mb-5">Pick a Time and Date</h1>
           <v-row>
@@ -65,7 +65,10 @@ export default {
         image: null
       },
       file: null,
-      imageUrl: ''
+      imageUrl: '',
+      rules: {
+        required: value => !!value || 'Required.'
+      }
     }
   },
   methods: {

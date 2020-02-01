@@ -5,6 +5,7 @@
       >
         <v-card v-for="meetup in meetups"
         :key="meetup.id"
+        class="mb-5"
         >
           <div class="d-flex">
             <v-avatar

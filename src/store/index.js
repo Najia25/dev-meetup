@@ -17,6 +17,23 @@ export default new Vuex.Store({
     createMeetup (state, payload) {
       state.meetups.push(payload)
     },
+    mutateMeetupData (state, payload) {
+      // wierd
+      // editing meetup variable updates the state. javascript feature.
+      const meetup = state.meetups.find(data => {
+        return data.id === payload.id
+      })
+
+      if (payload.title) {
+        meetup.title = payload.title
+      }
+      if (payload.description) {
+        meetup.description = payload.description
+      }
+      if (payload.date) {
+        meetup.date = payload.date
+      }
+    },
     addUser (state, payload) {
       state.user = payload
     },
@@ -96,6 +113,31 @@ export default new Vuex.Store({
           console.log(error)
         })
     },
+    updateMeetupData ({ commit }, payload) {
+      commit('setLoading', true)
+      const updateObj = {}
+      console.log(payload)
+      if (payload.title) {
+        updateObj.title = payload.title
+      }
+      if (payload.description) {
+        updateObj.description = payload.description
+      }
+      if (payload.date) {
+        updateObj.date = payload.date
+      }
+      console.log(updateObj)
+      firebase.database().ref('meetups').child(payload.id).update(updateObj)
+        .then(() => {
+          commit('setLoading', false)
+          commit('mutateMeetupData', payload)
+        })
+        .catch(error => {
+          console.log(error)
+          // commit('setLoading', false)
+        })
+      commit('setLoading', false)
+    },
     signInUser ({ commit }, payload) {
       commit('setLoading', true)
       commit('clearError')
@@ -162,6 +204,7 @@ export default new Vuex.Store({
     loadMeetup (state) {
       return (meetupId) => {
         return state.meetups.find((meetup) => {
+          console.log('jjskad')
           return meetup.id === meetupId
         })
       }
