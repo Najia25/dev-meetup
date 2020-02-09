@@ -13,12 +13,21 @@
             height="400"
             :src="meetup.imageUrl"
           ></v-img>
-          <v-card-subtitle class="pb-0 indigo--text text--darken-2">{{ meetup.date }}</v-card-subtitle>
+          <v-card-subtitle class="pb-0 indigo--text text--darken-2">
+            <app-edit-meetup-date-dialogue v-if="userIsCreator" :meetup="meetup"></app-edit-meetup-date-dialogue>
+            {{ meetup.date | date }}
+            <app-edit-meetup-time-dialogue v-if="userIsCreator" :meetup="meetup"></app-edit-meetup-time-dialogue>
+            - {{ meetup.location }}
+          </v-card-subtitle>
           <v-card-text>
             <div>
               {{ meetup.description }}
             </div>
           </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <app-edit-meetup-registration-dialogue v-if="userIsAuthenticated && !userIsCreator" :meetup="meetup"></app-edit-meetup-registration-dialogue>
+          </v-card-actions>
         </v-card>
       </v-col>
     </v-row>

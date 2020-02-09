@@ -28,14 +28,12 @@
           <v-row>
             <v-col>
               <v-date-picker v-model="formData.date">
-                {{ formData.date }}
               </v-date-picker>
             </v-col>
           </v-row>
           <v-row>
             <v-col>
-              <v-time-picker v-model="formData.date">
-                {{ formData.date }}
+              <v-time-picker v-model="formData.time" format="24hr">
               </v-time-picker>
             </v-col>
           </v-row>
@@ -53,6 +51,23 @@ export default {
       return this.formData.title !== '' &&
       this.formData.location !== '' &&
       this.formData.description !== ''
+    },
+    submittableDateTime () {
+      const date = new Date(this.formData.date)
+      console.log(typeof date)
+      if (typeof this.formData.time === 'string') {
+        console.log(typeof this.formData.time)
+        const hours = this.formData.time.match(/^(\d+)/)[1]
+        // console.log(this.formData.time.match(/(\d+)/g))
+        const minutes = this.formData.time.match(/:(\d+)/)[1]
+        date.setHours(hours)
+        date.setMinutes(minutes)
+      } else {
+        date.setHours(this.formData.time.getHours())
+        date.setMinutes(this.formData.time.getMinutes())
+      }
+      // console.log(date)
+      return date
     }
   },
   data () {
@@ -61,7 +76,8 @@ export default {
         title: '',
         location: '',
         description: '',
-        date: new Date().toISOString().substr(0, 10),
+        date: new Date().toISOString().substring(0, 10),
+        time: new Date(),
         image: null
       },
       file: null,
@@ -83,7 +99,7 @@ export default {
         title: this.formData.title,
         location: this.formData.location,
         description: this.formData.description,
-        date: this.formData.date,
+        date: this.submittableDateTime,
         image: this.formData.image
       }
       console.log(payload)
