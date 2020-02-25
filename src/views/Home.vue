@@ -2,10 +2,10 @@
   <v-container>
     <v-row class="mt-5">
       <v-col sm="6" class="text-sm-right text-center">
-        <v-btn to="/meetups">Explore Meetups</v-btn>
+        <v-btn outlined color="primary" to="/meetups">Explore Meetups</v-btn>
       </v-col>
       <v-col sm="6" class="text-sm-left text-center">
-        <v-btn to="/meetup/new">Explore Meetups</v-btn>
+        <v-btn to="/meetup/new" outlined color="primary">Organize Meetups</v-btn>
       </v-col>
     </v-row>
     <v-row>
