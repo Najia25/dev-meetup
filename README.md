@@ -1,29 +1,6 @@
 # dev-meetup
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your unit tests
-```
-npm run test:unit
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+=> User sign-in  
+=> User sign-up  
+=> Registered users can organize meetup providing meetup detais (meetup place, date, image of place, description)  
+=>List of meetups  
+=> Organizer of a particular meetup can edit meetup details.  
